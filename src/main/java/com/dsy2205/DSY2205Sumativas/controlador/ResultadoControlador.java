@@ -1,8 +1,10 @@
-package com.dsy2205.demo.controlador;
+package com.dsy2205.DSY2205Sumativas.controlador;
 
-import com.dsy2205.demo.modelo.Resultado;
-import com.dsy2205.demo.repo.ResultadoRepository;
 import org.springframework.web.bind.annotation.*;
+
+import com.dsy2205.DSY2205Sumativas.modelo.Resultado;
+import com.dsy2205.DSY2205Sumativas.repo.ResultadoRepository;
+
 import java.util.List;
 import java.util.Optional;
 
