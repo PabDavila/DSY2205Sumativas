@@ -1,11 +1,11 @@
-package com.dsy2205.DSY2205Sumativas;
+package com.dsy2205.DSY2205Sumativas.usuarios.Servicio;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class UsuariosApp {
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(UsuariosApp.class, args);
     }
 }

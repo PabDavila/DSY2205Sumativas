@@ -1,4 +1,4 @@
-package com.dsy2205.DSY2205Sumativas.Servicio;
+package com.dsy2205.DSY2205Sumativas.resultados.Servicio;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.dsy2205.DSY2205Sumativas.modelo;
+package com.dsy2205.DSY2205Sumativas.usuarios.Modelo;
 
 import jakarta.persistence.*;
 import lombok.Data;

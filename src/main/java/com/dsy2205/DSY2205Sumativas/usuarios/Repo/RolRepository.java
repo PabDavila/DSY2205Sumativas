@@ -1,4 +1,4 @@
-package com.dsy2205.DSY2205Sumativas.repo;
+package com.dsy2205.DSY2205Sumativas.usuarios.Repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
