@@ -1,0 +1,25 @@
+h2 {
+  margin-bottom: 15px;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla th, .tabla td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.btnEliminar {
+  background: #d9534f;
+  border: none;
+  color: #fff;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.btnEliminar:hover {
+  background: #c9302c;
+}
