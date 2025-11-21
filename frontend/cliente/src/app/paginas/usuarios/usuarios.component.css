@@ -1,3 +1,7 @@
+.contenedor {
+  padding: 20px;
+}
+
 h2 {
   margin-bottom: 15px;
 }
@@ -8,18 +12,19 @@ h2 {
 }
 
 .tabla th, .tabla td {
-  border: 1px solid #ccc;
-  padding: 8px;
+  border: 1px solid #ddd;
+  padding: 10px;
 }
 
 .btnEliminar {
   background: #d9534f;
+  color: white;
   border: none;
-  color: #fff;
-  padding: 6px 12px;
+  padding: 6px 10px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 .btnEliminar:hover {
-  background: #c9302c;
+  background: #b52b27;
 }

@@ -1,0 +1,25 @@
+.contenedor {
+  padding: 20px;
+  max-width: 380px;
+  margin: auto;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+}
+
+.btnEnviar {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  background: #0066ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.mensaje {
+  margin-top: 12px;
+  font-weight: bold;
+}

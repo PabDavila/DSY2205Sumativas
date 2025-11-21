@@ -16,20 +16,23 @@ export class ResultadosComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.cargarResultados();
+    this.listarResultados();
   }
 
-  cargarResultados() {
-    this.http.get<Resultado[]>(this.api).subscribe(data => {
-      this.resultados = data;
+  listarResultados() {
+    this.http.get<Resultado[]>(this.api).subscribe({
+      next: (data) => this.resultados = data,
+      error: () => console.log('Error al cargar resultados')
     });
   }
 
   eliminar(id: number) {
-    if (!confirm("¿Eliminar resultado?")) return;
+    if (!confirm('¿Seguro que deseas eliminar este resultado?')) return;
 
-    this.http.delete(`${this.api}/${id}`).subscribe(() => {
-      this.cargarResultados();
+    this.http.delete(`${this.api}/${id}`).subscribe({
+      next: () => this.listarResultados(),
+      error: () => alert('No se pudo eliminar el resultado')
     });
   }
+
 }

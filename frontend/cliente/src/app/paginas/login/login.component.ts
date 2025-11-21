@@ -1,18 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  
-  form = this.fb.group({
-    correo: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(4)]]
-  });
+export class LoginComponent implements OnInit {
+
+  mensajeError = '';
+
+  formLogin: any;
 
   constructor(
     private fb: FormBuilder,
@@ -20,18 +20,37 @@ export class LoginComponent {
     private router: Router
   ) {}
 
-  get correo() { return this.form.get('correo'); }
-  get password() { return this.form.get('password'); }
+  ngOnInit() {
+    this.formLogin = this.fb.group({
+      correo: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+    });
+  }
 
   login() {
-    if (this.form.invalid) return;
+    if (this.formLogin.invalid) {
+      this.mensajeError = 'Todos los campos son obligatorios';
+      return;
+    }
 
-    this.auth.login(this.form.value).subscribe({
-      next: (user) => {
-        localStorage.setItem("user", JSON.stringify(user));
-        this.router.navigate(['/laboratorios']);
+    const { correo, password } = this.formLogin.value;
+
+    this.auth.login(correo, password).subscribe({
+      next: (u) => {
+        if (!u) {
+          this.mensajeError = 'Credenciales incorrectas';
+          return;
+        }
+
+        if (u.rol === 'ADMIN') {
+          this.router.navigate(['/usuarios']);
+        } else {
+          this.router.navigate(['/resultados']);
+        }
       },
-      error: () => alert("Credenciales incorrectas")
+      error: () => {
+        this.mensajeError = 'Usuario o contraseña incorrectos';
+      }
     });
   }
 }

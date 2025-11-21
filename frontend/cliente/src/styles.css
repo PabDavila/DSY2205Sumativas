@@ -1,1 +1,44 @@
-/* You can add global styles to this file, and also import other style files */
+/* ESTILOS BASE - escritorio */
+body {
+  font-family: Arial;
+}
+
+/* TABLET (pantallas medianas) */
+@media (max-width: 992px) {
+  .tabla {
+    font-size: 14px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .navbar .nav-right a,
+  .navbar .btn-logout {
+    margin-top: 8px;
+  }
+}
+
+/* MÓVIL (pantallas pequeñas) */
+@media (max-width: 600px) {
+  .tabla {
+    font-size: 12px;
+  }
+
+  .contenedor {
+    padding: 10px;
+  }
+
+  input, button {
+    font-size: 14px;
+  }
+
+  .navbar {
+    padding: 10px;
+  }
+
+  .logo {
+    font-size: 16px;
+  }
+}

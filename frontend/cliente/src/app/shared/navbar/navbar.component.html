@@ -1,0 +1,22 @@
+<nav class="navbar">
+  <div class="nav-left">
+    <span class="logo">📚 Sistema de Laboratorio</span>
+  </div>
+
+  <div class="nav-right">
+
+    <!-- Si NO está logeado -->
+    <ng-container *ngIf="!auth.isLoggedIn()">
+      <a routerLink="/">Login</a>
+    </ng-container>
+
+    <!-- Si está logeado -->
+    <ng-container *ngIf="auth.isLoggedIn()">
+      <a routerLink="/resultados" *ngIf="auth.getRole() === 'ANALISTA'">Resultados</a>
+      <a routerLink="/usuarios" *ngIf="auth.getRole() === 'ADMIN'">Usuarios</a>
+
+      <button class="btn-logout" (click)="logout()">Cerrar sesión</button>
+    </ng-container>
+
+  </div>
+</nav>

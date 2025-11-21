@@ -1,0 +1,12 @@
+<div class="contenedor">
+  <h2>Recuperar Contraseña</h2>
+
+  <form [formGroup]="formRecuperar" (ngSubmit)="enviar()">
+    <label>Correo</label>
+    <input formControlName="correo" type="email" placeholder="tu@correo.com">
+
+    <button type="submit" class="btnEnviar">Enviar</button>
+
+    <p class="mensaje">{{ mensaje }}</p>
+  </form>
+</div>

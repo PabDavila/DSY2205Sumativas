@@ -1,25 +1,27 @@
-<h2>Usuarios</h2>
+<div class="contenedor">
+  <h2>Gestión de Usuarios</h2>
 
-<table class="tabla">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Correo</th>
-      <th>Rol</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
+  <table class="tabla">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
 
-  <tbody>
-    <tr *ngFor="let u of usuarios">
-      <td>{{ u.id }}</td>
-      <td>{{ u.nombre }} {{ u.apellido }}</td>
-      <td>{{ u.correo }}</td>
-      <td>{{ u.rol }}</td>
-      <td>
-        <button (click)="eliminar(u.id!)" class="btnEliminar">Eliminar</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <tbody>
+      <tr *ngFor="let u of usuarios">
+        <td>{{ u.id }}</td>
+        <td>{{ u.nombre }} {{ u.apellido }}</td>
+        <td>{{ u.correo }}</td>
+        <td>{{ u.rol }}</td>
+        <td>
+          <button class="btnEliminar" (click)="eliminar(u.id!)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

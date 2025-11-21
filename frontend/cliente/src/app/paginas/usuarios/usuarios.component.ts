@@ -16,20 +16,23 @@ export class UsuariosComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.cargarUsuarios();
+    this.listarUsuarios();
   }
 
-  cargarUsuarios() {
-    this.http.get<Usuario[]>(this.api).subscribe(data => {
-      this.usuarios = data;
+  listarUsuarios() {
+    this.http.get<Usuario[]>(this.api).subscribe({
+      next: (data) => this.usuarios = data,
+      error: () => console.log('Error al cargar usuarios')
     });
   }
 
   eliminar(id: number) {
-    if (!confirm("¿Eliminar usuario?")) return;
-    
-    this.http.delete(`${this.api}/${id}`).subscribe(() => {
-      this.cargarUsuarios();
+    if (!confirm('¿Seguro que deseas eliminar este usuario?')) return;
+
+    this.http.delete(`${this.api}/${id}`).subscribe({
+      next: () => this.listarUsuarios(),
+      error: () => alert('No se pudo eliminar el usuario')
     });
   }
+
 }

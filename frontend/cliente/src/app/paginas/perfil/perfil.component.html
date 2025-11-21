@@ -1,0 +1,20 @@
+<div class="contenedor">
+  <h2>Mi Perfil</h2>
+
+  <form [formGroup]="formPerfil" (ngSubmit)="guardar()">
+
+    <label>Nombre</label>
+    <input formControlName="nombre">
+
+    <label>Apellido</label>
+    <input formControlName="apellido">
+
+    <label>Correo</label>
+    <input formControlName="correo" type="email">
+
+    <button type="submit" class="btnGuardar">Guardar cambios</button>
+
+    <p class="mensaje">{{ mensaje }}</p>
+
+  </form>
+</div>

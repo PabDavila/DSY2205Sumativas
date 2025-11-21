@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  oracle:
+    image: gvenzl/oracle-xe
+    container_name: oracle
+    environment:
+      ORACLE_PASSWORD: admin
+      APP_USER: dba
+      APP_USER_PASSWORD: dba123
+    ports:
+      - "1521:1521"
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'select 1 from dual;' | sqlplus -s dba/dba123@localhost:1521/xepdb1"]
+      interval: 10s
+      timeout: 10s
+      retries: 50
+
+  backend:
+    build: ./backend
+    container_name: backend
+    depends_on:
+      oracle:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@oracle:1521/xepdb1
+      SPRING_DATASOURCE_USERNAME: dba
+      SPRING_DATASOURCE_PASSWORD: dba123
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
