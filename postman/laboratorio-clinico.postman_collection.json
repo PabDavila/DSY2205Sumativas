@@ -1,0 +1,157 @@
+{
+  "info": {
+    "_postman_id": "e2b9550f-4eac-4fbc-a7cc-bd5d31299160",
+    "name": "Laboratorio Clínico - Microservicios",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "USUARIOS",
+      "item": [
+        {
+          "name": "GET - Listar usuarios",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/usuarios"
+          }
+        },
+        {
+          "name": "GET - Usuario por ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/usuarios/1"
+          }
+        },
+        {
+          "name": "POST - Crear usuario",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Juan\",\n  \"apellido\": \"Pérez\",\n  \"correo\": \"juan@test.com\",\n  \"password\": \"1234\",\n  \"rol\": \"ADMIN\"\n}"
+            },
+            "url": "http://localhost:8080/usuarios"
+          }
+        },
+        {
+          "name": "PUT - Actualizar usuario",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Juan\",\n  \"apellido\": \"Pérez\",\n  \"correo\": \"juan@test.com\",\n  \"password\": \"1234\",\n  \"rol\": \"ADMIN\"\n}"
+            },
+            "url": "http://localhost:8080/usuarios/1"
+          }
+        },
+        {
+          "name": "DELETE - Eliminar usuario",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/usuarios/1"
+          }
+        },
+        {
+          "name": "POST - Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"correo\": \"juan@test.com\",\n  \"password\": \"1234\"\n}"
+            },
+            "url": "http://localhost:8080/usuarios/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "LABORATORIOS",
+      "item": [
+        {
+          "name": "GET - Listar laboratorios",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/laboratorios"
+          }
+        },
+        {
+          "name": "POST - Crear laboratorio",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Lab Central\",\n  \"direccion\": \"Av. Salud 123\",\n  \"telefono\": \"987654321\"\n}"
+            },
+            "url": "http://localhost:8080/laboratorios"
+          }
+        },
+        {
+          "name": "PUT - Actualizar laboratorio",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Lab Central Actualizado\",\n  \"direccion\": \"Av. Salud 456\",\n  \"telefono\": \"987654321\"\n}"
+            },
+            "url": "http://localhost:8080/laboratorios/1"
+          }
+        },
+        {
+          "name": "DELETE - Eliminar laboratorio",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/laboratorios/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "RESULTADOS",
+      "item": [
+        {
+          "name": "GET - Listar resultados",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/resultados"
+          }
+        },
+        {
+          "name": "POST - Crear resultado",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paciente\": \"Luis Soto\",\n  \"examen\": \"Hemograma\",\n  \"valor\": \"Normal\",\n  \"laboratorioId\": 1\n}"
+            },
+            "url": "http://localhost:8080/resultados"
+          }
+        },
+        {
+          "name": "PUT - Actualizar resultado",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paciente\": \"Luis Soto\",\n  \"examen\": \"Hemograma\",\n  \"valor\": \"Leve anemia\",\n  \"laboratorioId\": 1\n}"
+            },
+            "url": "http://localhost:8080/resultados/1"
+          }
+        },
+        {
+          "name": "DELETE - Eliminar resultado",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/resultados/1"
+          }
+        }
+      ]
+    }
+  ]
+}
