@@ -16,23 +16,37 @@ export class UsuariosComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.listarUsuarios();
+    this.cargarUsuarios();
   }
 
-  listarUsuarios() {
+  cargarUsuarios() {
     this.http.get<Usuario[]>(this.api).subscribe({
       next: (data) => this.usuarios = data,
-      error: () => console.log('Error al cargar usuarios')
+      error: () => console.error('Error al cargar usuarios')
     });
   }
 
-  eliminar(id: number) {
-    if (!confirm('¿Seguro que deseas eliminar este usuario?')) return;
+  crearUsuario(usuario: any) {
+    this.http.post<Usuario>(this.api, usuario).subscribe({
+      next: (u) => this.usuarios.push(u),
+      error: () => console.error('Error al crear usuario')
+    });
+  }
 
+  actualizarUsuario(usuario: any) {
+    this.http.put<Usuario>(`${this.api}/${usuario.id}`, usuario).subscribe({
+      next: (u) => {
+        const index = this.usuarios.findIndex(x => x.id === u.id);
+        if (index !== -1) this.usuarios[index] = u;
+      },
+      error: () => console.error('Error al actualizar usuario')
+    });
+  }
+
+  eliminarUsuario(id: number) {
     this.http.delete(`${this.api}/${id}`).subscribe({
-      next: () => this.listarUsuarios(),
-      error: () => alert('No se pudo eliminar el usuario')
+      next: () => this.usuarios = this.usuarios.filter(u => u.id !== id),
+      error: () => console.error('Error al eliminar usuario')
     });
   }
-
 }
