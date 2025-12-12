@@ -13,7 +13,7 @@ export class UsuariosComponent implements OnInit {
   usuarios: Usuario[] = [];
   api = environment.apiUrl + '/usuarios';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   ngOnInit(): void {
     this.cargarUsuarios();

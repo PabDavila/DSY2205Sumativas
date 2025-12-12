@@ -13,7 +13,7 @@ export class ResultadosComponent implements OnInit {
   resultados: Resultado[] = [];
   api = environment.apiUrl + '/resultados';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   ngOnInit(): void {
     this.cargarResultados();
