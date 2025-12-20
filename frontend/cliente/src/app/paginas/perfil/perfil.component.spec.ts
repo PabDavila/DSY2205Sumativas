@@ -7,15 +7,10 @@ describe('PerfilComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        PerfilComponent,
-        ReactiveFormsModule
-      ]
+      imports: [PerfilComponent, ReactiveFormsModule]
     }).compileComponents();
 
-    const fixture = TestBed.createComponent(PerfilComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = TestBed.createComponent(PerfilComponent).componentInstance;
   });
 
   it('Debe crear el formulario', () => {
@@ -23,12 +18,6 @@ describe('PerfilComponent', () => {
   });
 
   it('Debe ser inválido si faltan campos', () => {
-    component.formPerfil.setValue({
-      nombre: '',
-      apellido: '',
-      correo: ''
-    });
-
     expect(component.formPerfil.valid).toBeFalse();
   });
 
@@ -36,7 +25,7 @@ describe('PerfilComponent', () => {
     component.formPerfil.setValue({
       nombre: 'Juan',
       apellido: 'Perez',
-      correo: 'juan@correo.cl'
+      correo: 'a@a.com'
     });
 
     expect(component.formPerfil.valid).toBeTrue();

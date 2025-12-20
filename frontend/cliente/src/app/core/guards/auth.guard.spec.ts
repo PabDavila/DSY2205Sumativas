@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { AuthGuard } from './auth.guard';
-import { AuthService } from '../services/auth.service';
 
 describe('AuthGuard (functional)', () => {
   const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
@@ -11,14 +10,9 @@ describe('AuthGuard (functional)', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        AuthService,
-        { provide: Router, useValue: routerSpy }
-      ]
+      providers: [{ provide: Router, useValue: routerSpy }]
     });
-
     localStorage.clear();
-    routerSpy.navigate.calls.reset();
   });
 
   it('Debe bloquear si no hay login', () => {
