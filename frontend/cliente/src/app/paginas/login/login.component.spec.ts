@@ -2,19 +2,25 @@ import { TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { of } from 'rxjs';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let auth: AuthService;
-  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginComponent, HttpClientTestingModule, ReactiveFormsModule],
+      imports: [
+        LoginComponent,
+        ReactiveFormsModule
+      ],
       providers: [
         AuthService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
         {
           provide: Router,
           useValue: { navigate: jasmine.createSpy('navigate') }
@@ -25,7 +31,6 @@ describe('LoginComponent', () => {
     const fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     auth = TestBed.inject(AuthService);
-    router = TestBed.inject(Router);
   });
 
   it('Debe crear el componente', () => {
@@ -42,9 +47,13 @@ describe('LoginComponent', () => {
   });
 
   it('Debe llamar al servicio login si el formulario es válido', () => {
-    spyOn(auth, 'login').and.callThrough();
+    spyOn(auth, 'login').and.returnValue(of(null));
 
-    component.formLogin.setValue({ correo: 'a@a.com', password: '1234' });
+    component.formLogin.setValue({
+      correo: 'a@a.com',
+      password: '1234'
+    });
+
     component.login();
 
     expect(auth.login).toHaveBeenCalled();

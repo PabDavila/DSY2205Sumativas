@@ -1,18 +1,21 @@
 import { TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { PerfilComponent } from './perfil.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('PerfilComponent', () => {
-
   let component: PerfilComponent;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
-      providers: [PerfilComponent]
-    });
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        PerfilComponent,
+        ReactiveFormsModule
+      ]
+    }).compileComponents();
 
-    component = TestBed.inject(PerfilComponent);
+    const fixture = TestBed.createComponent(PerfilComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('Debe crear el formulario', () => {
@@ -22,19 +25,20 @@ describe('PerfilComponent', () => {
   it('Debe ser inválido si faltan campos', () => {
     component.formPerfil.setValue({
       nombre: '',
+      apellido: '',
       correo: ''
     });
 
-    expect(component.formPerfil.invalid).toBeTrue();
+    expect(component.formPerfil.valid).toBeFalse();
   });
 
   it('Debe ser válido si los campos están completos', () => {
     component.formPerfil.setValue({
       nombre: 'Juan',
-      correo: 'test@mail.com'
+      apellido: 'Perez',
+      correo: 'juan@correo.cl'
     });
 
     expect(component.formPerfil.valid).toBeTrue();
   });
-
 });

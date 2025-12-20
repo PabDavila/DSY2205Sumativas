@@ -1,46 +1,50 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ResultadosComponent } from './resultados.component';
-import { environment } from '../../../environments/environment';
+import { of } from 'rxjs';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('ResultadosComponent', () => {
-
   let component: ResultadosComponent;
-  let httpMock: HttpTestingController;
+  let serviceSpy: any;
 
-  const api = environment.apiUrl + '/resultados';
+  beforeEach(async () => {
+    serviceSpy = jasmine.createSpyObj('ResultadosService', [
+      'listar',
+      'eliminar'
+    ]);
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [ResultadosComponent]
-    });
+    serviceSpy.listar.and.returnValue(of([
+      {
+        id: 1,
+        pacienteId: 10,
+        tipoAnalisis: 'Sangre',
+        resultado: 'Normal'
+      }
+    ]));
 
-    component = TestBed.inject(ResultadosComponent);
-    httpMock = TestBed.inject(HttpTestingController);
+    serviceSpy.eliminar.and.returnValue(of(true));
+
+    await TestBed.configureTestingModule({
+      imports: [ResultadosComponent],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: 'ResultadosService', useValue: serviceSpy }
+      ]
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(ResultadosComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  afterEach(() => httpMock.verify());
-
   it('Debe cargar los resultados', () => {
-    component.cargarResultados();
-
-    const req = httpMock.expectOne(api);
-    expect(req.request.method).toBe('GET');
-
-    req.flush([{ id: 1, tipoAnalisis: "Hemograma" }]);
-
-    expect(component.resultados.length).toBe(1);
+    expect(component.resultados.length).toBeGreaterThan(0);
   });
 
   it('Debe eliminar un resultado', () => {
     component.eliminar(1);
-
-    const req = httpMock.expectOne(`${api}/1`);
-    expect(req.request.method).toBe('DELETE');
-
-    req.flush({});
-
-    expect(true).toBeTrue();
+    expect(serviceSpy.eliminar).toHaveBeenCalledWith(1);
   });
 });

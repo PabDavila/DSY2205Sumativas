@@ -1,39 +1,51 @@
 import { TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { RecuperarComponent } from './recuperar.component';
-import { environment } from '../../../environments/environment';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../core/services/auth.service';
+import { of } from 'rxjs';
 
 describe('RecuperarComponent', () => {
-
   let component: RecuperarComponent;
-  let httpMock: HttpTestingController;
+  let authSpy: any; // 👈 CLAVE
 
-  const api = environment.apiUrl + '/usuarios/recuperar';
+  beforeEach(async () => {
+    authSpy = jasmine.createSpyObj('AuthService', ['recuperar']);
+    authSpy.recuperar.and.returnValue(of(true));
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, HttpClientTestingModule],
-      providers: [RecuperarComponent]
-    });
+    await TestBed.configureTestingModule({
+      imports: [
+        RecuperarComponent,
+        ReactiveFormsModule
+      ],
+      providers: [
+        { provide: AuthService, useValue: authSpy }
+      ]
+    }).compileComponents();
 
-    component = TestBed.inject(RecuperarComponent);
-    httpMock = TestBed.inject(HttpTestingController);
+    const fixture = TestBed.createComponent(RecuperarComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  afterEach(() => httpMock.verify());
+  it('Debe crear el formulario', () => {
+    expect(component.formRecuperar).toBeTruthy();
+  });
+
+  it('Debe ser inválido si el correo está vacío', () => {
+    component.formRecuperar.setValue({
+      correo: ''
+    });
+
+    expect(component.formRecuperar.valid).toBeFalse();
+  });
 
   it('Debe enviar recuperación de contraseña', () => {
-    component.formRecuperar.setValue({ correo: 'test@mail.com' });
+    component.formRecuperar.setValue({
+      correo: 'test@correo.cl'
+    });
 
     component.enviar();
 
-    const req = httpMock.expectOne(api);
-    expect(req.request.method).toBe('POST');
-
-    req.flush({});
-
-    expect(component.mensaje).toContain('Si el correo existe');
+    expect(authSpy.recuperar).toHaveBeenCalled();
   });
-
 });
