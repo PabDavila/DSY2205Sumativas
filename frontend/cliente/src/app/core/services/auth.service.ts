@@ -1,40 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private api = environment.apiUrl + '/usuarios';
+  private readonly apiUrl = 'http://localhost:8080/auth';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
-  login(correo: string, password: string) {
-  return this.http.post(`${this.api}/login`, { correo, password }).pipe(
-    tap((usuario: any) => {
-      localStorage.setItem('usuario', JSON.stringify(usuario));
-    })
-  );
-}
-
-
-logout() {
-  localStorage.removeItem('usuario');
-}
-
-  isAuthenticated(): boolean {
-    return localStorage.getItem('usuario') != null;
+  login(correo: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, { correo, password });
   }
 
-  getUsuario() {
-  const u = localStorage.getItem('usuario');
-  return u ? JSON.parse(u) : null;
-}
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    localStorage.removeItem('rol');
+  }
+
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('token');
+  }
 
   getRol(): string | null {
     return localStorage.getItem('rol');
+  }
+
+  getUsuario(): any {
+    const user = localStorage.getItem('usuario');
+    return user ? JSON.parse(user) : null;
   }
 }

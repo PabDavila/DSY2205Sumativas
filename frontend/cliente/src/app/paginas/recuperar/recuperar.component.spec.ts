@@ -1,36 +1,63 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RecuperarComponent } from './recuperar.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
+import { environment } from '../../../environments/environment';
 
 describe('RecuperarComponent', () => {
   let component: RecuperarComponent;
+  let fixture: ComponentFixture<RecuperarComponent>;
+  let httpMock: HttpTestingController;
+
+  const apiUrl = environment.apiUrl + '/usuarios/recuperar';
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         RecuperarComponent,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        HttpClientTestingModule
       ]
     }).compileComponents();
 
-    const fixture = TestBed.createComponent(RecuperarComponent);
+    fixture = TestBed.createComponent(RecuperarComponent);
     component = fixture.componentInstance;
+    httpMock = TestBed.inject(HttpTestingController);
+    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    httpMock.verify();
   });
 
   it('Debe crear el formulario', () => {
-    const form = (component as any).form || (component as any).formRecuperar;
-    expect(form).toBeTruthy();
+    expect(component.formRecuperar).toBeTruthy();
   });
 
   it('Debe ser inválido si el correo está vacío', () => {
-    const form = (component as any).form || (component as any).formRecuperar;
-    form.reset();
-    expect(form.valid).toBeFalse();
+    component.formRecuperar.setValue({ correo: '' });
+    expect(component.formRecuperar.valid).toBeFalse();
   });
 
   it('Debe enviar recuperación de contraseña', () => {
-    const form = (component as any).form || (component as any).formRecuperar;
-    form.setValue({ correo: 'test@test.com' });
-    expect(form.valid).toBeTrue();
+    component.formRecuperar.setValue({
+      correo: 'test@test.cl'
+    });
+
+    component.enviar();
+
+    const req = httpMock.expectOne(apiUrl);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({
+      correo: 'test@test.cl'
+    });
+
+    req.flush({});
+
+    expect(component.mensaje)
+      .toContain('Si el correo existe');
   });
 });

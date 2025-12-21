@@ -1,31 +1,54 @@
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import {
+  Router,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot
+} from '@angular/router';
 import { AuthGuard } from './auth.guard';
+import { AuthService } from '../services/auth.service';
 
 describe('AuthGuard (functional)', () => {
-  const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+  let authService: jasmine.SpyObj<AuthService>;
+  let router: jasmine.SpyObj<Router>;
 
-  const routeMock: any = { data: { roles: ['ADMIN'] } };
-  const stateMock: any = { url: '/admin' };
+  const route = {
+    data: { roles: ['ADMIN'] }
+  } as unknown as ActivatedRouteSnapshot;
+
+  const state = {
+    url: '/admin'
+  } as unknown as RouterStateSnapshot;
 
   beforeEach(() => {
+    authService = jasmine.createSpyObj<AuthService>('AuthService', [
+      'getUsuario'
+    ]);
+
+    router = jasmine.createSpyObj<Router>('Router', ['navigate']);
+
     TestBed.configureTestingModule({
-      providers: [{ provide: Router, useValue: routerSpy }]
+      providers: [
+        { provide: AuthService, useValue: authService },
+        { provide: Router, useValue: router }
+      ]
     });
-    localStorage.clear();
   });
 
   it('Debe bloquear si no hay login', () => {
-    const result = AuthGuard(routeMock, stateMock);
+    authService.getUsuario.and.returnValue(null);
 
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['/login']);
+    const result = AuthGuard(route, state);
+
     expect(result).toBeFalse();
+    expect(router.navigate).toHaveBeenCalledWith(['/login']);
   });
 
   it('Debe permitir si el rol coincide', () => {
-    localStorage.setItem('usuario', JSON.stringify({ rol: 'ADMIN' }));
+    authService.getUsuario.and.returnValue({
+      rol: 'ADMIN'
+    });
 
-    const result = AuthGuard(routeMock, stateMock);
+    const result = AuthGuard(route, state);
 
     expect(result).toBeTrue();
   });
